@@ -1,0 +1,33 @@
+from machine import I2C,Pin         #从 machine 模块导入 I2C、Pin 子模块 
+from ssd1306 import SSD1306_I2C    #从 ssd1306 模块中导入 SSD1306_I2C 子模块 
+ 
+#pyBoard I2C 初始化：sda--> Y8, scl --> Y6 
+i2c = I2C(sda=Pin("Y8"), scl=Pin("Y6"))   
+ 
+#OLED 显示屏初始化：128*64 分辨率, I2C 地址是 0x3c 
+oled = SSD1306_I2C(128, 64, i2c, addr=0x3c)      
+oled.text("SSLN", 0,  0)      #写入第 1 行内容 
+oled.text("My AAAA",  0, 20)      #写入第 2 行内容 
+oled.text("By LZ",  0, 50)      #写入第 3 行内容 
+ 
+oled.show()   #OLED 执行显示 
+
+
+import pyb
+from pyb import Pin
+from machine import I2C,Pin
+from ssd1306 import SSD1306_I2C
+from pyb import Switch
+
+sw = Switch()
+
+i2c = I2C(sda=Pin("Y8"), scl=Pin("Y6"))   
+ 
+oled = SSD1306_I2C(128, 64, i2c, addr=0x3c)
+while 1:
+    oled.text("Welcome!",0,0)        
+    oled.text("By lmib",0,50)      
+    if sw.value() :
+        oled.text("SSLN!",0,20)
+    oled.show()  
+    oled.fill(0)
